@@ -11,5 +11,10 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@faker-js/faker": "^9.4.0",
+    "express-handlebars": "^8.0.1",
+    "socket.io": "^4.8.1"
+  }
 }

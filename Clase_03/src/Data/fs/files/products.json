@@ -319,20 +319,6 @@
     "category": "computadoras"
   },
   {
-    "_id": "fe72e64ad2607ae9e174f95c",
-    "Title": "Running Gear",
-    "Stock": "10",
-    "Price": "10",
-    "category": "Shoes"
-  },
-  {
-    "_id": "91d3c13ab8be4158fa3bebe2",
-    "Title": "Bike",
-    "Stock": "10",
-    "Price": "10",
-    "category": "Bike"
-  },
-  {
     "_id": "ad2aecbd2a0e42ab5fdff2af",
     "title": "Bike",
     "stock": 10,
@@ -340,10 +326,19 @@
     "category": "sports"
   },
   {
-    "_id": "97abbfacd05bd70e28dc793a",
-    "Title": "Bike",
-    "Stock": 10,
-    "Price": 100,
-    "Category": "sports"
+    "_id": "180fc0ff43eab507cca48807",
+    "title": "Amazing T Shirt",
+    "price": "15",
+    "stock": "100",
+    "category": "Clothing",
+    "photo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/White-T-Shirt.svg/1024px-White-T-Shirt.svg.png"
+  },
+  {
+    "_id": "cdfec80d2ca6ba8aace60b3f",
+    "title": "Top edged Shoes",
+    "price": "200",
+    "stock": "122",
+    "category": "Shoes",
+    "photo": "https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_2000,h_2000/global/377758/01/sv01/fnd/THA/fmt/png/ForeverRun-NITRO%E2%84%A2-Women's-Running-Shoes"
   }
 ]

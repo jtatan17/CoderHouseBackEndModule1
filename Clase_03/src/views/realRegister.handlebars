@@ -1,0 +1,60 @@
+<main class="d-flex w-100 flex-grow-1">
+  <section class="d-flex flex-column align-items-center w-50">
+    <h1 class="bg-primary-subtle p-2 text-center text-primary w-100">REGISTER
+      FORM</h1>
+    <form class="d-flex flex-column w-50 m-3">
+      <input
+        class="m-2 p-2 text-center"
+        type="text"
+        name="Product Title"
+        id="ProductTitle"
+        placeholder="Product Name"
+      />
+      <input
+        class="m-2 p-2 text-center"
+        type="number"
+        name="Price"
+        id="Price"
+        placeholder="Product Price"
+      />
+      <input
+        class="m-2 p-2 text-center"
+        type="number"
+        name="Stock"
+        id="Stock"
+        placeholder="Product Stock"
+      />
+      <input
+        class="m-2 p-2 text-center"
+        type="text"
+        name="Category"
+        id="Category"
+        placeholder="Product Category"
+      />
+      <input
+        class="m-2 p-2 text-center"
+        type="text"
+        name="avatar"
+        id="avatar"
+        placeholder="PHOTO"
+      />
+      <input
+        class="m-2 p-2 text-center btn btn-primary"
+        type="button"
+        id="register"
+        value="REGISTER!"
+      />
+    </form>
+  </section>
+  <section
+    id="products"
+    class="d-flex flex-wrap justify-content-evenly align-items-center"
+    style="width: 50%; height: calc(100vh - 60px);"
+  ></section>
+</main>
+<script
+  src="https://cdn.socket.io/4.8.1/socket.io.min.js"
+  integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+"
+  crossorigin="anonymous"
+></script>
+<script src="./scripts/realRegister.js"></script>

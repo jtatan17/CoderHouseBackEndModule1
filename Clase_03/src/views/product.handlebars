@@ -1,0 +1,11 @@
+<section>
+  {{#if product}}
+    <h1>Vista Productos</h1>
+    <h2>{{product.title}}</h2>
+    <h3>USD: {{product.price}}</h3>
+    <h3>{{product.stock}} Units</h3>
+    <button class="btn btn-info">Buy</button>
+  {{else}}
+    <h3>Not Found Product!</h3>
+  {{/if}}
+</section>
