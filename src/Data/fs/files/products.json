@@ -340,5 +340,13 @@
     "stock": "122",
     "category": "Shoes",
     "photo": "https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_2000,h_2000/global/377758/01/sv01/fnd/THA/fmt/png/ForeverRun-NITRO%E2%84%A2-Women's-Running-Shoes"
+  },
+  {
+    "_id": "ef6efc9276e9ba6c4ba1455d",
+    "title": "Running Jacket",
+    "price": "200",
+    "stock": "300",
+    "category": "Clothing",
+    "photo": "https://static.nike.com/a/images/t_PDP_936_v1/f_auto,q_auto:eco/d154662e-047d-4d71-aff1-9ad0fec58750/AS+M+NK+UV+RPL+STRIDE+JACKET.png"
   }
 ]
