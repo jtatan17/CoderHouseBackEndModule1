@@ -24,7 +24,7 @@ socket.on("products", (data) => {
         <p class="card-text">USD: ${each.price}</p>
         <p class="card-text">Stock: ${each.stock}</p>
         <p class="card-text">Category: ${each.category}</p>
-        <a href="/product/{{this._id}}" class="btn btn-primary">Info</a>
+        <a href="/product/${each._id}" class="btn btn-primary">Info</a>
       </div>
     </div>`
   );

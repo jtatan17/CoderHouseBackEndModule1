@@ -1,10 +1,23 @@
 <section>
   {{#if product}}
     <h1>Vista Productos</h1>
+    {{#if product.photo}}
+      <img
+        src={{product.photo}}
+        alt={{product._id}}
+        style="height: 18rem; object-fit: cover"
+      />
+    {{else}}
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/9402/9402212.png"
+        alt={{product._id}}
+        style="height: 18rem; object-fit: cover"
+      />
+    {{/if}}
     <h2>{{product.title}}</h2>
     <h3>USD: {{product.price}}</h3>
     <h3>{{product.stock}} Units</h3>
-    <button class="btn btn-info">Buy</button>
+    <button class="btn btn-info">Add to cart</button>
   {{else}}
     <h3>Not Found Product!</h3>
   {{/if}}

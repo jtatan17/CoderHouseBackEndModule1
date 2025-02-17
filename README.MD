@@ -218,3 +218,9 @@ Screenshots of Postman requests and responses can be uploaded to a `proof` folde
 - File operations are asynchronous for better performance.
 
 Feel free to test the API further or modify it to suit additional requirements.
+
+## Segunda Preentrega
+
+- Register form was integrated and programmed to send data to the backend using socket.io
+- Backend programmed to received data using socket.io, uses the data and sends it back to the fron, which uses hanle bars and socket.io again to render the info sent by the BackEnd.
+- Each product card has a Info button which was program to have the url modified with each product ID so it shows in a page the info of the product alone
