@@ -1,9 +1,9 @@
-import productsManager from "../Data/fs/products.fs.js";
+import productsManager from "../Data/mongo/products.mongo.js";
 
 const readOneProduct = async (req, res, next) => {
   try {
     const { pid } = req.params;
-    const one = await productsManager.readOne(pid);
+    const one = await productsManager.readById(pid);
     if (one) {
       return res.status(200).json({ response: one });
     } else {
@@ -35,7 +35,13 @@ const readProducts = async (req, res, next) => {
 
 const createProduct = async (req, res, next) => {
   try {
+    console.log("Request Headers:", req.headers);
     console.log(req.body);
+
+    if (!req.body || Object.keys(req.body).length === 0) {
+      throw new Error("Request body is missing or empty");
+    }
+
     const data = req.body;
     const one = await productsManager.create(data);
     return res.status(201).json({ response: one });
@@ -57,7 +63,7 @@ const updateProduct = async (req, res, next) => {
   try {
     const { pid } = req.params;
     const data = req.body;
-    const one = await productsManager.updateOne(pid, data);
+    const one = await productsManager.updateById(pid, data);
     return res.status(200).json({ response: one });
   } catch (error) {
     next(error);
@@ -67,8 +73,31 @@ const updateProduct = async (req, res, next) => {
 const deleteProduct = async (req, res, next) => {
   try {
     const { pid } = req.params;
-    const one = await productsManager.destroyOne(pid);
-    return res.status(200).json({ response: one });
+    const one = await productsManager.deleteById(pid);
+    if (one) {
+      return res.status(200).json({ response: one });
+    } else {
+      const error = new Error("Not found");
+      error.statusCode = 404;
+      throw error;
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+const paginate = async (req, res, next) => {
+  try {
+    const { page, limit } = req.query;
+    const { docs, prevPage, nextPage } = await productsManager.paginate(
+      page || 1,
+      limit || 5
+    );
+    return res.status(200).json({
+      method: req.method,
+      url: req.url,
+      response: { docs, prevPage, nextPage },
+    });
   } catch (error) {
     next(error);
   }
@@ -81,4 +110,5 @@ export {
   createProductMock,
   updateProduct,
   deleteProduct,
+  paginate,
 };

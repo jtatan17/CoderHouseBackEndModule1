@@ -1,0 +1,38 @@
+<main class="d-flex w-100 flex-grow-1">
+  <section class="d-flex flex-column align-items-center w-50">
+    <h1 class="bg-primary-subtle p-2 text-center text-primary w-100">Log In</h1>
+    <form class="d-flex flex-column w-50 m-3">
+      <input
+        class="m-2 p-2 text-center"
+        type="text"
+        name="User Email"
+        id="UserEmail"
+        placeholder="Email"
+      />
+      <input
+        class="m-2 p-2 text-center"
+        type="text"
+        name="User Password"
+        id="Password"
+        placeholder="Password"
+      />
+      <input
+        class="m-2 p-2 text-center btn btn-primary"
+        type="button"
+        id="LogIn"
+        value="Log In"
+      />
+    </form>
+  </section>
+  <section
+    id="userInfo"
+    class="d-flex flex-wrap justify-content-evenly align-items-center"
+    style="width: 50%; height: calc(100vh - 60px);"
+  ></section>
+</main>
+<script
+  src="https://cdn.socket.io/4.8.1/socket.io.min.js"
+  integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+"
+  crossorigin="anonymous"
+></script>
+<script src="./scripts/logIn.js"></script>

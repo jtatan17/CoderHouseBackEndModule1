@@ -1,4 +1,5 @@
-import usersManager from "../Data/fs/users.fl.js";
+//import usersManager from "../Data/fs/users.fl.js";
+import usersManager from "../Data/mongo/users.mongo.js";
 
 const createUserMock = async (req, res, next) => {
   try {
@@ -23,7 +24,7 @@ const createUser = async (req, res, next) => {
 const readOneUser = async (req, res, next) => {
   try {
     const { uid } = req.params;
-    const one = await usersManager.readOne(uid);
+    const one = await usersManager.readById(uid);
     if (one) {
       return res.status(200).json({ response: one });
     } else {
@@ -54,7 +55,7 @@ const readUsers = async (req, res, next) => {
 const deleteUser = async (req, res, next) => {
   try {
     const { uid } = req.params;
-    const one = await usersManager.destroyOne(uid);
+    const one = await usersManager.deleteById(uid);
     if (one) {
       return res.status(200).json({ response: one });
     } else {
@@ -71,7 +72,7 @@ const updateUser = async (req, res, next) => {
   try {
     const { uid } = req.params;
     const data = req.body;
-    const one = await usersManager.updateOne(uid, data);
+    const one = await usersManager.updateById(uid, data);
     if (one) {
       return res.status(200).json({ response: one });
     } else {

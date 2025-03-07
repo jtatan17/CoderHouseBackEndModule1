@@ -18,8 +18,8 @@ const usersRouter = Router();
 
 usersRouter.post("/mock", createUserMock);
 usersRouter.post("", validateUser, handleValidationErrors, createUser);
-usersRouter.get("/:uid", readOneUser);
 usersRouter.get("", readUsers);
+usersRouter.get("/:uid", readOneUser);
 usersRouter.delete("/:uid", deleteUser);
 usersRouter.put("/:uid", updateUser);
 

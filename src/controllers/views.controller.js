@@ -61,4 +61,22 @@ const registerView = (req, res, next) => {
   }
 };
 
-export { indexView, productView, cartView, profileView, registerView };
+const logInView = (req, res, next) => {
+  try {
+    const data = {
+      title: "Log In",
+    };
+    return res.status(200).render("userRegister", data);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export {
+  indexView,
+  productView,
+  cartView,
+  profileView,
+  registerView,
+  logInView,
+};

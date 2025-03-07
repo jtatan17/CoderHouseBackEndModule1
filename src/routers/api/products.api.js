@@ -6,9 +6,12 @@ import {
   createProductMock,
   updateProduct,
   deleteProduct,
+  paginate,
 } from "../../controllers/products.controller.js";
 
 const productsRouter = Router();
+
+productsRouter.get("/pages", paginate);
 
 productsRouter.get("/:pid", readOneProduct);
 

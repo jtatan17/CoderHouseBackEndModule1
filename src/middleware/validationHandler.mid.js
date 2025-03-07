@@ -87,8 +87,21 @@ const handleValidationErrors = (req, res, next) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  // Enforce lowercase field names
-  const allowedFields = ["title", "category", "stock", "price", "thumbnails"];
+  // Determine allowed fields based on the request route
+  let allowedFields = [];
+  if (req.originalUrl.includes("users")) {
+    allowedFields = [
+      "firstName",
+      "lastName",
+      "jobTitle",
+      "userPhone",
+      "userLocation",
+      "password",
+      "email",
+    ];
+  } else if (req.originalUrl.includes("products")) {
+    allowedFields = ["title", "category", "stock", "price", "thumbnails"];
+  }
   const receivedFields = Object.keys(req.body);
 
   // Check for invalid field names

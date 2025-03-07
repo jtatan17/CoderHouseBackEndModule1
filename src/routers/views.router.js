@@ -5,11 +5,14 @@ import {
   cartView,
   profileView,
   registerView,
+  logInView,
 } from "../controllers/views.controller.js";
 
 const viewsRouter = Router();
 
 viewsRouter.get("/", indexView);
+
+viewsRouter.get("/LogIn", logInView);
 
 viewsRouter.get("/product/:pid", productView);
 
