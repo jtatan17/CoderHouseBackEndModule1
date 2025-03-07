@@ -26,7 +26,7 @@ const socketServer = new SocketServer(httpServer);
 socketServer.on("connection", socketHelper);
 export { socketServer };
 
-//Template Engina
+//Template Engine
 server.engine(
   "handlebars",
   engine({
