@@ -348,5 +348,13 @@
     "stock": "300",
     "category": "Clothing",
     "photo": "https://static.nike.com/a/images/t_PDP_936_v1/f_auto,q_auto:eco/d154662e-047d-4d71-aff1-9ad0fec58750/AS+M+NK+UV+RPL+STRIDE+JACKET.png"
+  },
+  {
+    "_id": "0fb8da8406df59babe2faeb6",
+    "title": "Scooter",
+    "price": "200",
+    "stock": "10",
+    "category": "Vehicle",
+    "photo": "https://m.media-amazon.com/images/I/61Sf9g1CVLL._AC_SL1500_.jpg"
   }
 ]
