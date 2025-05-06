@@ -87,6 +87,8 @@ class Manager {
       throw error;
     }
   };
+
+  readBy = async (data) => await this.model.findOne(data).lean();
 }
 
 export default Manager;

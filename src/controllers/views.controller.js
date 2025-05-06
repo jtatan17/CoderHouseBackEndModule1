@@ -57,7 +57,9 @@ const registerView = (req, res, next) => {
     };
     return res.status(200).render("realRegister", data);
   } catch (error) {
-    next(error);
+    console.log(error);
+    const statusCode = error.statusCode || 500;
+    return res.status(statusCode).render("error");
   }
 };
 
