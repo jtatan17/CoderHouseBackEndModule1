@@ -89,6 +89,17 @@ class Manager {
   };
 
   readBy = async (data) => await this.model.findOne(data).lean();
+
+  readByName = async (name) => {
+    try {
+      const user = await this.model.findOne({
+        name: { $regex: name, $options: "i" },
+      });
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  };
 }
 
 export default Manager;

@@ -56,6 +56,7 @@ document.querySelector("#register").addEventListener("click", async (e) => {
 
     const url = "/api/auth/register";
     let response = await fetch(url, opts);
+    let result = await response.json();
 
     if (!response.ok) {
       // Handle 409 Conflict (user already exists)
@@ -65,7 +66,6 @@ document.querySelector("#register").addEventListener("click", async (e) => {
       throw new Error(result.message || "Registration failed");
     }
 
-    response = await response.json();
     console.log(response);
 
     location.replace("/login");
@@ -82,9 +82,5 @@ document.querySelector("#register").addEventListener("click", async (e) => {
   //   photo,
   // };
   // socket.emit("newProduct", product);
-  // document.querySelector("#ProductTitle").value = "";
-  // document.querySelector("#Price").value = "";
-  // document.querySelector("#Stock").value = "";
-  // document.querySelector("#Category").value = "";
-  // document.querySelector("#avatar").value = "";
+  //
 });

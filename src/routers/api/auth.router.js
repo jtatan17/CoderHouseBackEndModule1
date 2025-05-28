@@ -1,49 +1,61 @@
 import { Router } from "express";
 import usersManager from "../../Data/mongo/users.mongo.js";
+import { createHash, isValidPassword } from "../../helpers/bcrypt.helper.js";
+import passport from "passport";
+import { generateToken } from "../../helpers/tokens.helper.js";
 
 const authRouter = Router();
 
 const register = async (req, res, next) => {
+  res.status(201).json({
+    response: req.user,
+    method: req.method,
+    url: req.url,
+    message: "Registration Succesfull",
+  });
+};
+
+const login = async (req, res, next) => {
   try {
-    const data = req.body;
-
-    const existingUser = await usersManager.readBy({ email: data.email });
-
-    if (existingUser) {
-      const error = new Error("User already exists");
-      error.statusCode = 409; // 409 Conflict is appropriate for duplicate resource
-      throw error;
+    const { email, password } = req.body;
+    const user = await usersManager.readBy({ email });
+    console.log("Logeando un usuario");
+    console.log(req.body);
+    if (!user || !isValidPassword(user, password)) {
+      return done(null, false, { message: "Invalid credentials" });
     }
+    const tokenUser = {
+      user_id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role || "user",
+    };
+    const access_token = generateToken(tokenUser);
+    console.log(access_token);
+    res.cookie("jwtCookieToken", access_token, {
+      maxAge: 6000,
+      httpOnly: true,
+    });
 
-    const response = await usersManager.create(data);
     res.status(201).json({
-      response,
+      user: tokenUser,
       method: req.method,
       url: req.url,
+      message: "Login successful",
+      status: "success",
+      payload: access_token,
     });
   } catch (error) {
     next(error);
   }
 };
 
-const login = async (req, res, next) => {
+const logout = (req, res, next) => {
   try {
-    const { email, password } = req.body;
-
-    const response = await usersManager.readBy({ email });
-
-    if (response.passoword !== password) {
-      const error = new Error("Invalid credentials");
-      error.statusCode = 401;
-      throw error;
-    }
-    req.session.user_id = response._id;
-    req.session.email = email;
-    req.session.role = response.role;
-    res.status(201).json({
-      response,
-      method: req.method,
-      url: req.url,
+    req.session.destroy((err) => {
+      if (err) return res.status(500).json({ error: "Logout failed" });
+      res.clearCookie("connect.sid", { path: "/" });
+      res.json({ message: "Logged out" });
     });
   } catch (error) {
     next(error);
@@ -70,8 +82,27 @@ const online = async (req, res, next) => {
   }
 };
 
-authRouter.post("/register", register);
+const failRegister = async (req, res, next) => {
+  res.status(401).send({ error: "Fail register proccess" });
+};
+const failLogin = async (req, res, next) => {
+  res.status(401).send({
+    error: "Login failed",
+    message: req.session.messages?.pop(),
+  });
+};
+
+authRouter.post(
+  "/register",
+  passport.authenticate("register", {
+    failureRedirect: "/fail-register",
+  }),
+  register
+);
 authRouter.post("/login", login);
-authRouter.post("/online", online);
+authRouter.get("/online", online);
+authRouter.get("/logout", logout);
+authRouter.get("/fail-register", failRegister);
+authRouter.get("/fail-login", failLogin);
 
 export default authRouter;

@@ -41,8 +41,13 @@ const cartView = (req, res, next) => {
 
 const profileView = (req, res, next) => {
   try {
+    const user = req.user;
+    if (!user) {
+      return res.redirect("/login");
+    }
     const data = {
       title: "Profile",
+      user: user,
     };
     return res.status(200).render("profile", data);
   } catch (error) {

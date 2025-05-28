@@ -52,8 +52,8 @@
 document.querySelector("#LogIn").addEventListener("click", async () => {
   try {
     const data = {
-      userEmail: document.querySelector("#UserEmail").value,
-      userPassword: document.querySelector("#Password").value,
+      email: document.querySelector("#UserEmail").value,
+      password: document.querySelector("#Password").value,
     };
 
     const opts = {
@@ -64,16 +64,17 @@ document.querySelector("#LogIn").addEventListener("click", async () => {
 
     const url = "/api/auth/login";
     let response = await fetch(url, opts);
-    response = response.json;
-    console.log(response);
+    const result = await response.json();
+    console.log(result);
 
-    if (response.error) {
-      alert.error;
+    if (response.ok) {
+      alert("Login successful");
+      location.replace("/Profile");
     } else {
-      location.replace("/login");
+      alert(result.message || "Login failed"); // ✅ Show meaningful error
     }
   } catch (error) {
-    console.log(error);
-    alert(error.error);
+    console.error("Login error:", error);
+    alert("Something went wrong during login.");
   }
 });

@@ -21,7 +21,7 @@ const readCookie = (req, res, next) => {
     const cookie = req.cookies.modo;
     const signedCookie = req.signedCookies.user_id;
     const message = "Cookie leida";
-    res.status(200).json({ cookie, signedCookie });
+    res.status(200).json({ cookie, signedCookie, message });
   } catch (error) {
     next(error);
   }

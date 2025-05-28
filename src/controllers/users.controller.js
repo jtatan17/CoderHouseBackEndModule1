@@ -85,6 +85,50 @@ const updateUser = async (req, res, next) => {
   }
 };
 
+const findByName = async (req, res, next) => {
+  try {
+    // const { word } = req.params;
+    // const user = await usersManager.readByName(word);
+
+    const user = req.user;
+    console.log(user);
+    if (!user) {
+      const error = new Error("User not found");
+      error.statusCode = 404;
+      throw error;
+    }
+    return res
+      .status(200)
+      .json(`The user ${user.name} has the role of ${user.role}`);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const routeNotFound = async (req, res, next) => {
+  res.status(400).send("Can not get that URL");
+};
+
+const routeParam = async (req, res, next, name) => {
+  console.log("Buscando el rol del usuario con el nombre:" + name);
+  try {
+    const result = await usersManager.readByName(name);
+    console.log(result);
+    if (!result) {
+      req.user = null;
+      const error = new Error("User not found");
+      error.statusCode = 404;
+      throw error;
+    } else {
+      req.user = result;
+    }
+    next();
+  } catch (error) {
+    console.error("Ocurrio un error" + error.message);
+    next(error);
+  }
+};
+
 export {
   createUserMock,
   createUser,
@@ -92,4 +136,7 @@ export {
   readUsers,
   deleteUser,
   updateUser,
+  findByName,
+  routeNotFound,
+  routeParam,
 };

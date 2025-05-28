@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { passportCall, authorization } from "../helpers/tokens.helper.js";
 import {
   indexView,
   productView,
@@ -21,5 +22,12 @@ viewsRouter.get("/cart/:pid", cartView);
 viewsRouter.get("/register", registerView);
 
 viewsRouter.get("/profile/:uid", productView);
+
+viewsRouter.get(
+  "/profile",
+  passportCall("jwt"),
+  authorization("user"),
+  profileView
+);
 
 export default viewsRouter;
