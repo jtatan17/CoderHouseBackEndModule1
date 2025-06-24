@@ -1,6 +1,6 @@
 import { Router } from "express";
 import jwt from "jsonwebtoken";
-import { PRIVATE_KEY } from "../../helpers/tokens.helper";
+import { PRIVATE_KEY } from "../../helpers/tokens.helper.js";
 import { param } from "express-validator";
 
 export default class CustomRouter {
@@ -17,9 +17,47 @@ export default class CustomRouter {
     console.log("Entrando con GET con Custom Router con PATH:" + path);
     console.log(policies);
 
-    this.router.get(path, this.handlePolicies(policies)),
+    this.router.get(
+      path,
+      this.handlePolicies(policies),
       this.generateCustomResponses,
-      this.applyCallbacks(callbacks);
+      this.applyCallbacks(callbacks)
+    );
+  }
+
+  post(path, policies, ...callbacks) {
+    console.log("Entrando con GET con Custom Router con PATH:" + path);
+    console.log(policies);
+
+    this.router.post(
+      path,
+      this.handlePolicies(policies),
+      this.generateCustomResponses,
+      this.applyCallbacks(callbacks)
+    );
+  }
+
+  put(path, policies, ...callbacks) {
+    console.log("Entrando con GET con Custom Router con PATH:" + path);
+    console.log(policies);
+
+    this.router.put(
+      path,
+      this.handlePolicies(policies),
+      this.generateCustomResponses,
+      this.applyCallbacks(callbacks)
+    );
+  }
+
+  delete(path, policies, ...callbacks) {
+    console.log("Entrando con GET con Custom Router con PATH:" + path);
+    console.log(policies);
+    this.router.delete(
+      path,
+      this.handlePolicies(policies),
+      this.generateCustomResponses,
+      this.applyCallbacks(callbacks)
+    );
   }
 
   handlePolicies = (policies) => (req, res, next) => {
@@ -37,7 +75,7 @@ export default class CustomRouter {
         .status(401)
         .send({ error: "User not authenticated or missing token" });
     }
-    const token = authHeader.split("")[1];
+    const token = authHeader.split(" ")[1];
     jwt.verify(token, PRIVATE_KEY, (error, credenciales) => {
       if (error) return res.status(403).send("Toekn invalid, unauthorized");
 
@@ -53,8 +91,15 @@ export default class CustomRouter {
   };
 
   generateCustomResponses = (req, res, next) => {
-    res.sendSucces = (payload) =>
-      res.status(200).send({ status: "Success", payload });
+    res.sendSuccess = (payload) =>
+      res.status(200).json({
+        status: "Success",
+        payload,
+      });
+    res.sendServerError = (error) =>
+      res.status(500).json({ status: "Error", error });
+    res.sendError = (error) => res.status(400).json({ status: "Error", error });
+    next();
   };
 
   applyCallbacks(callbacks) {

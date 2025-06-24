@@ -93,7 +93,7 @@ class UsersManager {
       throw error;
     }
   }
-  async readOne(id) {
+  async readById(id) {
     try {
       const all = await this.readFile();
       const one = all.find((each) => each._id === id);
@@ -102,7 +102,7 @@ class UsersManager {
       throw error;
     }
   }
-  async updateOne(id, newData) {
+  async updateById(id, newData) {
     try {
       const all = await this.readFile();
       const index = all.findIndex((product) => product._id === id);
@@ -118,7 +118,7 @@ class UsersManager {
       throw error;
     }
   }
-  async destroyOne(id) {
+  async deleteById(id) {
     try {
       const all = await this.readFile();
       const index = all.findIndex((product) => product._id === id);

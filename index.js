@@ -8,7 +8,7 @@ import cookieParser from "cookie-parser";
 import FileStore from "session-file-store";
 import MongoStore from "connect-mongo";
 import __dirname from "./utils.js";
-import connectMongo from "./src/helpers/mongo.helper.js";
+import MongoSingleton from "./src/helpers/mongo.helper.js";
 import passport from "passport";
 import initializePassport from "./src/config/passport.config.js";
 import router from "./src/routers/index.router.js";
@@ -22,7 +22,7 @@ const server = express();
 const port = process.env.SERVER_PORT;
 const ready = async () => {
   console.log("server is ready on port " + port);
-  await connectMongo(process.env.MONGO_URL);
+  // await MongoSingleton.getInstance(process.env.MONGO_URL);
 };
 const httpServer = createServer(server);
 httpServer.listen(port, ready);
@@ -74,3 +74,5 @@ server.use(cookieParser(process.env.COOKIE_KEY));
 server.use("/", router);
 server.use(pathHandler);
 server.use(errorHandler);
+
+//qtxx xjty wnwu irpl

@@ -401,3 +401,15 @@ Previously, data was stored in the file system under `src/data/fs`. Now, **Mongo
 - **`manager.js`** – Implements main CRUD logic.
 - **`users.js`**, **`products.js`**, **`carts.js`** – Extend `manager.js` for respective entities.
 - **`models/`** – Defines schemas for Users, Products, and Ca
+
+## Latest integrations
+
+In the last commits we added Passport JWT token cookies and sessions, also created a factory to manage the persistance methods, also there is a custom router for specific endpoints and email sender
+
+## Env Variables
+
+SERVER_PORT= 8080
+MONGO_URL= mongodb+srv://jtatan2014:Bask20177\*@cluster0.haka7.mongodb.net/back72855
+COOKIE_KEY = "clave p4ar4 firm4r las c00kies"
+SESSION_KEY = "cl4ve s3ssions"
+PERSISTENCE = "mongo"

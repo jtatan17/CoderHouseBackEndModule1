@@ -19,12 +19,25 @@ import {
   routeNotFound,
 } from "../../controllers/users.controller.js";
 
-export default class UsersExtendRouter extends CustomROuter {
+import { login, register } from "../../controllers/auth.controller.js";
+
+export default class UsersExtendRouter extends CustomRouter {
   init() {
     const userService = new Manager();
     this.get("/", ["PUBLIC"], (req, res) => {
-      res.sendSuccess("Hola Coders!!");
+      try {
+        res.sendSuccess("Hola Coders!!");
+      } catch (error) {
+        res.sendError(error);
+      }
     });
-    this.get("/", ["ADMIN"], findByName);
+    this.get("/find", ["ADMIN"], findByName);
+
+    this.get("/adminUser", ["ADMIN"], (req, res) => {
+      res.sendSuccess(req.user);
+    });
+
+    this.post("/login", ["PUBLIC"], login);
+    this.post("/register", ["PUBLIC"], register);
   }
 }

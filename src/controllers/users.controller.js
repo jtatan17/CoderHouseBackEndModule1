@@ -1,5 +1,5 @@
 //import usersManager from "../Data/fs/users.fl.js";
-import usersManager from "../Data/mongo/users.mongo.js";
+import { userService as usersManager } from "../services/factory.js";
 
 const createUserMock = async (req, res, next) => {
   try {
