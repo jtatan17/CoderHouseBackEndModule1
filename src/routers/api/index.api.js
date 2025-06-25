@@ -8,6 +8,7 @@ import sessionsRouter from "./sessions.router.js";
 import authRouter from "./auth.router.js";
 import UsersExtendRouter from "../Custom/user.extendedrouter.js";
 import emailRouter from "./email.router.js";
+import smsRouter from "./sms.router.js";
 
 const apiRouter = Router();
 
@@ -19,7 +20,7 @@ apiRouter.use("/userlogin", logInRouter);
 apiRouter.use("/sessions", sessionsRouter);
 apiRouter.use("/auth", authRouter);
 apiRouter.use("/email", emailRouter);
-
+apiRouter.use("/sms", smsRouter);
 const usersExtendRouter = new UsersExtendRouter();
 apiRouter.use("/custom", usersExtendRouter.getRouter());
 

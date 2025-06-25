@@ -404,7 +404,7 @@ Previously, data was stored in the file system under `src/data/fs`. Now, **Mongo
 
 ## Latest integrations
 
-In the last commits we added Passport JWT token cookies and sessions, also created a factory to manage the persistance methods, also there is a custom router for specific endpoints and email sender
+Recent commits introduced several key features: Passport.js authentication using JWT, cookies, and session support; a factory pattern to manage multiple persistence methods; a custom router for defining specific endpoints; and an integrated email-sending service.
 
 ## Env Variables
 
