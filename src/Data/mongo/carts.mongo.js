@@ -1,3 +1,4 @@
+// carts.mongo.js
 import Manager from "./manager.mongo.js";
 import Cart from "./models/carts.model.js";
 
@@ -5,38 +6,66 @@ class CartsManager extends Manager {
   constructor() {
     super(Cart);
   }
-  addProductToCart = async (user_id, product_id, quantity) => {
+
+  async createOrUpdateCart(user_id, products) {
     try {
-      const one = this.create({ user_id, product_id, quantity });
-      return one;
+      // Find existing cart for user
+      let cart = await this.model.findOne({ user_id, state: "pending" });
+
+      if (!cart) {
+        cart = new this.model({ user_id, products });
+      } else {
+        // Merge products (update quantities if product exists)
+        products.forEach((newProduct) => {
+          const existingProduct = cart.products.find((p) =>
+            p.product_id.equals(newProduct.product_id)
+          );
+
+          if (existingProduct) {
+            existingProduct.quantity += newProduct.quantity;
+          } else {
+            cart.products.push(newProduct);
+          }
+        });
+      }
+
+      await cart.save();
+      return cart.populate("products.product_id");
     } catch (error) {
       throw error;
     }
-  };
-  removeProductFromCart = async (cid) => {
+  }
+
+  async validateStock(cartProducts) {
     try {
-      const one = await this.deleteById(cid);
-      return one;
+      const Product = this.model.db.model("products");
+      const stockIssues = [];
+
+      for (const item of cartProducts) {
+        const product = await Product.findById(item.product_id);
+        if (!product) {
+          stockIssues.push({
+            product_id: item.product_id,
+            available: 0,
+            required: item.quantity,
+            message: "Product not found",
+          });
+        } else if (product.stock < item.quantity) {
+          stockIssues.push({
+            product_id: item.product_id,
+            title: product.title,
+            available: product.stock,
+            required: item.quantity,
+            message: `Only ${product.stock} available`,
+          });
+        }
+      }
+
+      return stockIssues;
     } catch (error) {
       throw error;
     }
-  };
-  updateQuantity = async (cart_id, quantity) => {
-    try {
-      const one = await this.updateById(cart_id, quantity);
-      return one;
-    } catch (error) {
-      throw error;
-    }
-  };
-  readProductsByUser = async (user_id) => {
-    try {
-      const all = await this.readAll({ user_id, state: "reserved" });
-      return all;
-    } catch (error) {
-      throw error;
-    }
-  };
+  }
 }
 
 const cartsManager = new CartsManager();

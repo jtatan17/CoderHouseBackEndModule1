@@ -7,6 +7,10 @@ import {
   profileView,
   registerView,
   logInView,
+  cartSuccess,
+  productRegistration,
+  resetPassword,
+  newPassword,
 } from "../controllers/views.controller.js";
 
 const viewsRouter = Router();
@@ -15,19 +19,28 @@ viewsRouter.get("/", indexView);
 
 viewsRouter.get("/LogIn", logInView);
 
-viewsRouter.get("/product/:pid", productView);
+viewsRouter.get("/product/:_id", productView);
 
-viewsRouter.get("/cart/:pid", cartView);
+// viewsRouter.get("/cart/:pid", cartView);
+
+viewsRouter.get("/cart", cartView);
 
 viewsRouter.get("/register", registerView);
 
 viewsRouter.get("/profile/:uid", productView);
 
+viewsRouter.get("/checkout/success", cartSuccess);
+
 viewsRouter.get(
-  "/profile",
+  "/registeraproduct",
   passportCall("jwt"),
-  authorization("user"),
-  profileView
+  authorization("admin"),
+  productRegistration
 );
+
+viewsRouter.get("/profile", passportCall("jwt"), profileView);
+
+viewsRouter.get("/resetPassword", resetPassword);
+viewsRouter.get("/newPassword/:token", newPassword);
 
 export default viewsRouter;

@@ -5,6 +5,9 @@ import { createHash, isValidPassword } from "../helpers/bcrypt.helper.js";
 import usersManager from "../Data/mongo/users.mongo.js";
 import { Strategy as JWTStrategy, ExtractJwt } from "passport-jwt";
 import { PRIVATE_KEY } from "../helpers/tokens.helper.js";
+import UserDTO from "../dto/user.dto.js";
+import userRepository from "../repositories/user.repository.js";
+
 //Strategy gets decalred
 
 const localStrategy = passportLocal.Strategy;
@@ -17,35 +20,13 @@ const initializePassport = () => {
     new localStrategy(
       {
         passReqToCallback: true,
-
         usernameField: "email",
       },
       async (req, _email, _password, done) => {
-        const { name, date, email, password, avatar } = req.body;
-
-        console.log("Registrando un usuario");
-        console.log(req.body);
-
         try {
-          const existingUser = await usersManager.readBy({ email });
-
-          if (existingUser) {
-            const error = new Error("User already exists");
-            error.statusCode = 409; // 409 Conflict is appropriate for duplicate resource
-            throw error;
-          }
-          const hashedPassword = createHash(password);
-          const newUser = {
-            name,
-            date,
-            email,
-            avatar,
-            password: hashedPassword,
-          };
-
-          const response = await usersManager.create(newUser);
-
-          return done(null, response);
+          const userDTO = new UserDTO(req.body);
+          const createdUser = await userRepository.register(userDTO);
+          return done(null, createdUser);
         } catch (error) {
           return done(error);
         }

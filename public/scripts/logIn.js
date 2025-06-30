@@ -67,7 +67,7 @@ document.querySelector("#LogIn").addEventListener("click", async () => {
     const result = await response.json();
     console.log(result);
 
-    if (response.ok) {
+    if (response.status >= 200 && response.status < 300) {
       alert("Login successful");
       location.replace("/Profile");
     } else {

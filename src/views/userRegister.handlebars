@@ -1,33 +1,57 @@
-<main class="d-flex justify-content-center align-items-center vh-100 bg-light">
-  <div class="card shadow-lg" style="width: 400px;">
-    <div class="card-header bg-primary text-white text-center">
-      <h2>Log In</h2>
-    </div>
-    <div class="card-body">
-      <form class="d-flex flex-column" id="loginForm">
-        <div class="mb-3">
-          <label for="UserEmail" class="form-label">Email address</label>
-          <input
-            type="email"
-            class="form-control"
-            id="UserEmail"
-            placeholder="Enter your email"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="Password" class="form-label">Password</label>
-          <input
-            type="password"
-            class="form-control"
-            id="Password"
-            placeholder="Enter your password"
-          />
-        </div>
-        <button type="button" id="LogIn" class="btn btn-primary w-100">Log In</button>
-      </form>
-    </div>
-  </div>
+<main class="d-flex flex-column align-items-center w-100 flex-grow-1">
+  <h1 class="bg-success-subtle p-2 text-center text-success w-100">REGISTER FORM</h1>
+  <form
+    class="m-3 d-flex flex-column justify-content-evently flex-wrap align-items-center"
+    style="width: 380px;"
+  >
+    <input
+      class="m-2 p-2 text-center w-100"
+      type="text"
+      name="name"
+      id="firstName"
+      placeholder="FIRST NAME"
+    />
+    <input
+      class="m-2 p-2 text-center w-100"
+      type="text"
+      name="lastName"
+      id="lastName"
+      placeholder="LAST NAME"
+    />
+    <input
+      class="m-2 p-2 text-center w-100"
+      type="text"
+      name="avatar"
+      id="avatar"
+      placeholder="AVATAR URL"
+    />
+    <input
+      class="m-2 p-2 text-center w-100"
+      type="number"
+      name="age"
+      id="age"
+      placeholder="Age"
+    />
+    <input
+      class="m-2 p-2 text-center w-100"
+      type="email"
+      name="email"
+      id="email"
+      placeholder="EMAIL"
+    />
+    <input
+      class="m-2 p-2 text-center w-100"
+      type="password"
+      name="password"
+      id="password"
+      placeholder="PASSWORD"
+    />
+    <input
+      class="m-2 p-2 text-center btn btn-success w-100"
+      type="button"
+      id="register"
+      value="REGISTER!"
+    />
+  </form>
 </main>
-
-<script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
-<script src="./scripts/logIn.js"></script>
+<script src="./scripts/realRegister.js"></script>

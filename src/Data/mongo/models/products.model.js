@@ -9,11 +9,11 @@ const schema = new Schema(
     stock: { type: Number, default: 100 },
     price: { type: Number, default: 100 },
     image: {
-      trype: String,
-      default: [
+      type: String,
+      default:
         "https://www.shutterstock.com/image-vector/missing-picture-page-website-design-600nw-1552421075.jpg",
-      ],
     },
+
     category: { type: String, default: "none", index: true },
   },
   { timestamps: true }

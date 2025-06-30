@@ -1,6 +1,9 @@
 import nodemailer from "nodemailer";
 import pathHandler from "../middleware/pathHandler.mid.js";
 import __dirname from "../../utils.js";
+import jwt from "jsonwebtoken";
+import userRepository from "../repositories/user.repository.js";
+import { createHash, isValidPassword } from "../helpers/bcrypt.helper.js";
 
 const emailAccount = process.env.GMAIL_ACCOUNT;
 const emailPassword = process.env.GMAIL_APP_PASSWORD;
@@ -86,5 +89,72 @@ export const sendEmailWithAttachments = (req, res) => {
       error: error,
       message: "No se pudo enviar el email desde:" + emailAccount,
     });
+  }
+};
+
+export const sendResetPasswordEmail = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await userRepository.readBy({ email });
+    if (!user) return res.status(404).send({ message: "User not found" });
+
+    const token = jwt.sign({ uid: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    const resetLink = `http://localhost:8080/newPassword/${token}`;
+
+    const mailOptions = {
+      from: `YourApp <${emailAccount}>`,
+      to: email,
+      subject: "Reset your password",
+      html: `<p>You requested a password reset. Click <a href="${resetLink}">here</a> to create a new password. This link is valid for 1 hour.</p>`,
+    };
+
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err)
+        return res
+          .status(500)
+          .send({ message: "Failed to send email", error: err });
+      res.status(200).send({ message: "Reset link sent", info });
+    });
+  } catch (err) {
+    res.status(500).send({ message: "Server error", error: err });
+  }
+};
+
+// ✅ Reset password with token
+export const resetPasswordController = async (req, res) => {
+  console.log("🔐 Entered resetPasswordController");
+  const { token } = req.params;
+  const { newPassword, confirmNewPassword } = req.body;
+
+  if (!newPassword || !confirmNewPassword)
+    return res.status(400).send({ message: "Both fields are required" });
+
+  if (newPassword !== confirmNewPassword)
+    return res.status(400).send({ message: "Passwords do not match" });
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log(decoded);
+    const user = await userRepository.readById(decoded.uid);
+    console.log(user);
+    if (!user) return res.status(404).send({ message: "User not found" });
+
+    const isSame = isValidPassword(user, newPassword);
+    if (isSame)
+      return res
+        .status(400)
+        .send({ message: "New password must be different" });
+
+    const hashedPassword = createHash(newPassword);
+    await userRepository.updateById(user._id, { password: hashedPassword });
+
+    res.status(200).send({ message: "Password successfully updated" });
+  } catch (err) {
+    res
+      .status(401)
+      .send({ message: "Token expired or invalid", error: err.message });
   }
 };

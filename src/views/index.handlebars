@@ -2,9 +2,9 @@
 <section class="d-flex flex-wrap justify-content-evenly">
   {{#each products}}
     <div class="card" style="width: 18rem;">
-      {{#if this.photo}}
+      {{#if this.image}}
         <img
-          src={{this.photo}}
+          src={{this.image}}
           class="card-img-top"
           alt={{this._id}}
           style="height: 18rem; object-fit: cover"
@@ -20,6 +20,13 @@
         <h5 class="card-title">{{this.title}}</h5>
         <p class="card-text">USD: {{this.price}}</p>
         <a href="/product/{{this._id}}" class="btn btn-primary">Info</a>
+        <button
+          class="btn btn-primary add-to-cart"
+          data-product-id="{{this._id}}"
+        >
+          <i class="bi bi-cart-plus"></i>
+          Add to Cart
+        </button>
       </div>
     </div>
   {{/each}}

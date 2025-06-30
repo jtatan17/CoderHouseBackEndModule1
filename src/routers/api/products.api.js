@@ -17,7 +17,7 @@ productsRouter.get("/:pid", readOneProduct);
 
 productsRouter.get("", readProducts);
 
-productsRouter.post("", createProduct);
+productsRouter.post("/createProduct", createProduct);
 
 productsRouter.post("/mock", createProductMock);
 

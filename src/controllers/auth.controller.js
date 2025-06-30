@@ -1,6 +1,7 @@
 import usersManager from "../Data/mongo/users.mongo.js";
-import { createHash, isValidPassword } from "../helpers/bcrypt.helper.js";
-import passport from "passport";
+import { isValidPassword } from "../helpers/bcrypt.helper.js";
+import authRepository from "../repositories/auth.repository.js";
+
 import { generateToken } from "../helpers/tokens.helper.js";
 
 const register = async (req, res, next) => {
@@ -14,32 +15,35 @@ const register = async (req, res, next) => {
 const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    const user = await usersManager.readBy({ email });
+    const user = await authRepository.findUserByEmail(email);
     console.log("Logeando un usuario");
     console.log(req.body);
-    if (!user || !isValidPassword(user, password)) {
-      return done(null, false, { message: "Invalid credentials" });
+    if (!user || !authRepository.validatePassword(user, password)) {
+      return res.status(401).json({ message: "Invalid credentials" });
     }
-    const tokenUser = {
+    const tokenPayload = {
       user_id: user._id,
       name: user.name,
       email: user.email,
       role: user.role || "user",
     };
-    const access_token = generateToken(tokenUser);
-    console.log(access_token);
-    res.cookie("jwtCookieToken", access_token, {
-      maxAge: 6000,
+
+    const token = authRepository.generateToken(tokenPayload);
+    console.log(token);
+    res.cookie("jwtCookieToken", token, {
+      maxAge: 60 * 60 * 1000,
       httpOnly: true,
+      secure: false,
+      sameSite: "lax",
     });
 
     res.status(201).json({
-      user: tokenUser,
+      user: tokenPayload,
       method: req.method,
       url: req.url,
       message: "Login successful",
       status: "success",
-      payload: access_token,
+      payload: token,
     });
   } catch (error) {
     next(error);
@@ -48,11 +52,25 @@ const login = async (req, res, next) => {
 
 const logout = (req, res, next) => {
   try {
-    req.session.destroy((err) => {
-      if (err) return res.status(500).json({ error: "Logout failed" });
-      res.clearCookie("connect.sid", { path: "/" });
-      res.json({ message: "Logged out" });
+    // Clear the JWT cookie
+    res.clearCookie("jwtCookieToken", {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      path: "/",
     });
+
+    if (req.session) {
+      req.session.destroy((err) => {
+        if (err) {
+          console.error("Session destruction error:", err);
+          return res.status(500).json({ error: "Logout failed" });
+        }
+        return res.json({ message: "Logged out" });
+      });
+    } else {
+      res.json({ message: "Logged out" });
+    }
   } catch (error) {
     next(error);
   }
@@ -88,4 +106,25 @@ const failLogin = async (req, res, next) => {
   });
 };
 
-export { register, login, logout, online, failRegister, failLogin };
+const currentUser = (req, res) => {
+  if (!req.user) {
+    return res
+      .status(401)
+      .json({ success: false, message: "Not authenticated" });
+  }
+
+  res.json({
+    success: true,
+    user: req.user, // contains user_id, email, name, role
+  });
+};
+
+export {
+  register,
+  login,
+  logout,
+  online,
+  failRegister,
+  failLogin,
+  currentUser,
+};

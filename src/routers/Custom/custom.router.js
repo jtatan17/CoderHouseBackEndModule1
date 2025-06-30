@@ -66,16 +66,17 @@ export default class CustomRouter {
 
     if (policies[0] === "PUBLIC") return next();
 
-    const authHeader = req.headers.authorization;
-    console.log("Token present in header auth");
-    console.log(authHeader);
+    let token =
+      req.cookies?.jwtCookieToken ||
+      (req.headers.authorization?.startsWith("Bearer ") &&
+        req.headers.authorization.split(" ")[1]);
 
-    if (!authHeader) {
+    if (!token) {
       return res
         .status(401)
         .send({ error: "User not authenticated or missing token" });
     }
-    const token = authHeader.split(" ")[1];
+    // const token = authHeader.split(" ")[1];
     jwt.verify(token, PRIVATE_KEY, (error, credenciales) => {
       if (error) return res.status(403).send("Toekn invalid, unauthorized");
 

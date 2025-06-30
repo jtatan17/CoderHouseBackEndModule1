@@ -62,7 +62,7 @@ server.use(
 
 initializePassport();
 server.use(passport.initialize());
-// server.use(passport.session());
+server.use(passport.session());
 
 server.use(morgan("dev"));
 server.use(express.static(__dirname + "/public"));

@@ -37,14 +37,21 @@ document.querySelector("#register").addEventListener("click", async (e) => {
   e.preventDefault();
   try {
     const data = {
-      name: document.querySelector("#name").value,
-      date: document.querySelector("#date").value,
+      firstName: document.querySelector("#firstName").value,
+      lastName: document.querySelector("#lastName").value,
+      age: document.querySelector("#age").value,
       email: document.querySelector("#email").value,
       password: document.querySelector("#password").value,
       avatar: document.querySelector("#avatar").value,
     };
 
-    if (!data.name || !data.date || !data.email || !data.password) {
+    if (
+      !data.firstName ||
+      !data.lastName ||
+      !data.age ||
+      !data.email ||
+      !data.password
+    ) {
       return alert("Please fill in all required fields");
     }
 
@@ -67,7 +74,7 @@ document.querySelector("#register").addEventListener("click", async (e) => {
     }
 
     console.log(response);
-
+    alert("Registration succefull✅");
     location.replace("/login");
   } catch (error) {
     console.error("Registration error:", error);

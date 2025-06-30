@@ -1,9 +1,10 @@
 import productsManager from "../Data/mongo/products.mongo.js";
+import productRepository from "../repositories/product.repository.js";
 
 const readOneProduct = async (req, res, next) => {
   try {
     const { pid } = req.params;
-    const one = await productsManager.readById(pid);
+    const one = await productRepository.readById(pid);
     if (one) {
       return res.status(200).json({ response: one });
     } else {
@@ -19,7 +20,7 @@ const readOneProduct = async (req, res, next) => {
 const readProducts = async (req, res, next) => {
   try {
     const { category } = req.query;
-    const all = await productsManager.readAll(category);
+    const all = await productRepository.readAll(category);
     const generalStock = "general stock " + all.length;
     if (all.length > 0) {
       return res.status(200).json({ response: all, generalStock });
@@ -43,7 +44,7 @@ const createProduct = async (req, res, next) => {
     }
 
     const data = req.body;
-    const one = await productsManager.create(data);
+    const one = await productRepository.create(data);
     return res.status(201).json({ response: one });
   } catch (error) {
     next(error);
@@ -52,7 +53,7 @@ const createProduct = async (req, res, next) => {
 
 const createProductMock = async (req, res, next) => {
   try {
-    const one = await productsManager.createMock();
+    const one = await productRepository.createMock();
     return res.status(201).json({ response: one });
   } catch (error) {
     next(error);
@@ -63,7 +64,7 @@ const updateProduct = async (req, res, next) => {
   try {
     const { pid } = req.params;
     const data = req.body;
-    const one = await productsManager.updateById(pid, data);
+    const one = await productRepository.updateById(pid, data);
     return res.status(200).json({ response: one });
   } catch (error) {
     next(error);
@@ -73,7 +74,7 @@ const updateProduct = async (req, res, next) => {
 const deleteProduct = async (req, res, next) => {
   try {
     const { pid } = req.params;
-    const one = await productsManager.deleteById(pid);
+    const one = await productRepository.deleteById(pid);
     if (one) {
       return res.status(200).json({ response: one });
     } else {
@@ -89,7 +90,7 @@ const deleteProduct = async (req, res, next) => {
 const paginate = async (req, res, next) => {
   try {
     const { page, limit } = req.query;
-    const { docs, prevPage, nextPage } = await productsManager.paginate(
+    const { docs, prevPage, nextPage } = await productRepository.paginate(
       page || 1,
       limit || 5
     );

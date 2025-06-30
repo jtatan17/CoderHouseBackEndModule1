@@ -7,4 +7,8 @@ const router = Router();
 router.use("/", viewsRouter);
 router.use("/api", apiRouter);
 
+router.get("/checkout/success", (req, res) => {
+  res.render("checkout/success");
+});
+
 export default router;

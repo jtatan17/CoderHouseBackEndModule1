@@ -1,9 +1,8 @@
-//import usersManager from "../Data/fs/users.fl.js";
-import { userService as usersManager } from "../services/factory.js";
+import userRepository from "../repositories/user.repository.js";
 
 const createUserMock = async (req, res, next) => {
   try {
-    const one = await usersManager.createMock();
+    const one = await userRepository.createMock();
     return res.status(201).json({ response: one });
   } catch (error) {
     next(error);
@@ -12,9 +11,7 @@ const createUserMock = async (req, res, next) => {
 
 const createUser = async (req, res, next) => {
   try {
-    console.log(req.body);
-    const data = req.body;
-    const one = await usersManager.create(data);
+    const one = await userRepository.create(req.body);
     return res.status(201).json({ response: one });
   } catch (error) {
     next(error);
@@ -23,84 +20,57 @@ const createUser = async (req, res, next) => {
 
 const readOneUser = async (req, res, next) => {
   try {
-    const { uid } = req.params;
-    const one = await usersManager.readById(uid);
-    if (one) {
-      return res.status(200).json({ response: one });
-    } else {
-      const error = new Error("Not found");
-      error.statusCode = 404;
-      throw error;
-    }
+    const one = await userRepository.readById(req.params.uid);
+    if (!one) throw new Error("Not found");
+    return res.status(200).json({ response: one });
   } catch (error) {
+    error.statusCode = error.statusCode || 404;
     next(error);
   }
 };
 
 const readUsers = async (req, res, next) => {
   try {
-    const { category } = req.query;
-    const all = await usersManager.readAll(category);
-    if (all.length === 0) {
-      const error = new Error("Not found");
-      error.statusCode = 404;
-      throw error;
-    }
+    const all = await userRepository.readAll(req.query.category);
+    if (!all.length) throw new Error("Not found");
     return res.status(200).json({ response: all });
   } catch (error) {
+    error.statusCode = error.statusCode || 404;
     next(error);
   }
 };
 
 const deleteUser = async (req, res, next) => {
   try {
-    const { uid } = req.params;
-    const one = await usersManager.deleteById(uid);
-    if (one) {
-      return res.status(200).json({ response: one });
-    } else {
-      const error = new Error("Not found");
-      error.statusCode = 404;
-      throw error;
-    }
+    const one = await userRepository.deleteById(req.params.uid);
+    if (!one) throw new Error("Not found");
+    return res.status(200).json({ response: one });
   } catch (error) {
+    error.statusCode = error.statusCode || 404;
     next(error);
   }
 };
 
 const updateUser = async (req, res, next) => {
   try {
-    const { uid } = req.params;
-    const data = req.body;
-    const one = await usersManager.updateById(uid, data);
-    if (one) {
-      return res.status(200).json({ response: one });
-    } else {
-      const error = new Error("Not found");
-      error.statusCode = 404;
-      throw error;
-    }
+    const one = await userRepository.updateById(req.params.uid, req.body);
+    if (!one) throw new Error("Not found");
+    return res.status(200).json({ response: one });
   } catch (error) {
+    error.statusCode = error.statusCode || 404;
     next(error);
   }
 };
 
 const findByName = async (req, res, next) => {
   try {
-    // const { word } = req.params;
-    // const user = await usersManager.readByName(word);
-
     const user = req.user;
-    console.log(user);
-    if (!user) {
-      const error = new Error("User not found");
-      error.statusCode = 404;
-      throw error;
-    }
+    if (!user) throw new Error("User not found");
     return res
       .status(200)
       .json(`The user ${user.name} has the role of ${user.role}`);
   } catch (error) {
+    error.statusCode = error.statusCode || 404;
     next(error);
   }
 };
@@ -110,21 +80,14 @@ const routeNotFound = async (req, res, next) => {
 };
 
 const routeParam = async (req, res, next, name) => {
-  console.log("Buscando el rol del usuario con el nombre:" + name);
   try {
-    const result = await usersManager.readByName(name);
-    console.log(result);
-    if (!result) {
-      req.user = null;
-      const error = new Error("User not found");
-      error.statusCode = 404;
-      throw error;
-    } else {
-      req.user = result;
-    }
+    const result = await userRepository.readByName(name);
+    if (!result) throw new Error("User not found");
+    req.user = result;
     next();
   } catch (error) {
-    console.error("Ocurrio un error" + error.message);
+    req.user = null;
+    error.statusCode = error.statusCode || 404;
     next(error);
   }
 };
