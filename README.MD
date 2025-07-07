@@ -72,6 +72,10 @@ This is the final delivery for the Coderhouse Backend course. It is a complete e
   - Handlebars rendering engine
   - Responsive views for login, register, profile, cart, resetPassword
 
+- 👨🏻‍⚖️ **Product manger**:
+
+  - Admin users can access to /productManager, where there is a form to do CRUD from the front
+
 ---
 
 ## 📦 Environment Variables
@@ -103,14 +107,14 @@ JWT_SECRET="SuperSecretKeyOnlyYouKnow"
 
 ## 🔒 Protected Routes and Access Control
 
-| Route                 | Access        | Description                       |
-| --------------------- | ------------- | --------------------------------- |
-| `/registeraproduct`   | Admin Only    | Register a new product            |
-| `/cart`               | User Only     | View and modify cart              |
-| `/checkout`           | User Only     | Confirm cart and create DB order  |
-| `/resetPassword`      | Public        | Request password reset via email  |
-| `/newPassword/:token` | Public        | Set new password securely         |
-| `/current`            | Authenticated | Returns current user session info |
+| Route                 | Access        | Description                                 |
+| --------------------- | ------------- | ------------------------------------------- |
+| `/productManager`     | Admin Only    | Register, find, update and delete a product |
+| `/cart`               | User Only     | View and modify cart                        |
+| `/checkout`           | User Only     | Confirm cart and create DB order            |
+| `/resetPassword`      | Public        | Request password reset via email            |
+| `/newPassword/:token` | Public        | Set new password securely                   |
+| `/api/auth/current`   | Authenticated | Returns current user session info           |
 
 ---
 
@@ -164,7 +168,6 @@ POST /api/users/:uid
 | HTTP Method | Path                               | Description                      |
 | ----------- | ---------------------------------- | -------------------------------- |
 | GET         | `/`                                | Home view                        |
-| GET         | `/products`                        | Product listing                  |
 | GET         | `/cart`                            | LocalStorage cart view           |
 | POST        | `/checkout`                        | Create Mongo cart (if logged in) |
 | GET         | `/profile`                         | Profile page after login         |

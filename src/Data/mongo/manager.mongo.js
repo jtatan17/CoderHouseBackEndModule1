@@ -32,7 +32,7 @@ class Manager {
 
   readOne = async (data) => {
     try {
-      const one = await this.model.findOne(data);
+      const one = await this.model.findOne(data).lean();
       return one;
     } catch (error) {
       throw error;
@@ -54,7 +54,7 @@ class Manager {
     try {
       //Devuelve el objeto luego de la modificacion
       const opts = { new: true };
-      const one = await this.model.findByOneAndUpdate(filter, data, opts);
+      const one = await this.model.findOneAndUpdate(filter, data, opts);
       return one;
     } catch (error) {
       throw error;

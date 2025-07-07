@@ -75,6 +75,6 @@ document.querySelector("#LogIn").addEventListener("click", async () => {
     }
   } catch (error) {
     console.error("Login error:", error);
-    alert("Something went wrong during login.");
+    alert("Something went wrong during login, please try again.");
   }
 });

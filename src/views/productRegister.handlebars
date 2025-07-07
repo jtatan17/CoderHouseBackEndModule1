@@ -1,4 +1,4 @@
-<main class="d-flex flex-column align-items-center w-100 flex-grow-1">
+{{! <main class="d-flex flex-column align-items-center w-100 flex-grow-1">
   <h1 class="bg-success-subtle p-2 text-center text-success w-100">
     REGISTER A PRODUCT
   </h1>
@@ -49,4 +49,137 @@
     />
   </form>
 </main>
-<script src="./scripts/productRegister.js"></script>
+<script src="./scripts/productRegister.js"></script> }}
+
+<main class="container mt-4">
+  <h1 class="text-center text-primary mb-4">ADMIN PRODUCT MANAGER</h1>
+
+  <!-- Toggle buttons -->
+  <div class="d-flex justify-content-center mb-3 gap-2">
+    <button class="btn btn-outline-primary" onclick="toggleForm('add')">Add
+      Product</button>
+    <button class="btn btn-outline-secondary" onclick="toggleForm('find')">Find
+      Product</button>
+    <button
+      class="btn btn-outline-warning"
+      onclick="toggleForm('update')"
+    >Update Product</button>
+    <button class="btn btn-outline-danger" onclick="toggleForm('delete')">Delete
+      Product</button>
+  </div>
+
+  <!-- ADD PRODUCT -->
+  <section id="form-add" class="admin-form">
+    <h3 class="text-success">Add Product</h3>
+    <form id="addProductForm" class="form-group">
+      <input
+        type="text"
+        id="addTitle"
+        class="form-control mb-2"
+        placeholder="Product Title"
+      />
+      <input
+        type="number"
+        id="addStock"
+        class="form-control mb-2"
+        placeholder="Stock"
+      />
+      <input
+        type="number"
+        id="addPrice"
+        class="form-control mb-2"
+        placeholder="Price"
+      />
+      <input
+        type="text"
+        id="addImage"
+        class="form-control mb-2"
+        placeholder="Image URL"
+      />
+      <input
+        type="text"
+        id="addCategory"
+        class="form-control mb-2"
+        placeholder="Category"
+      />
+      <button type="submit" class="btn btn-success w-100">Register Product</button>
+    </form>
+  </section>
+
+  <!-- FIND PRODUCT -->
+  <section id="form-find" class="admin-form d-none">
+    <h3 class="text-secondary">Find Product</h3>
+    <form id="findProductForm" class="form-group">
+      <input
+        type="text"
+        class="form-control mb-2"
+        placeholder="Enter Product Title"
+        id="findInput"
+      />
+      <button class="btn btn-secondary w-100" type="submit">Find</button>
+    </form>
+    <pre id="findResult" class="mt-3"></pre>
+  </section>
+
+  <!-- UPDATE PRODUCT -->
+  <section id="form-update" class="admin-form d-none">
+    <h3 class="text-warning">Update Product</h3>
+    <form id="updateProductForm" class="form-group">
+      <input
+        type="text"
+        id="updateTitle"
+        class="form-control mb-2"
+        placeholder="Current Product Title (required)"
+      />
+
+      <input
+        type="text"
+        id="newTitle"
+        class="form-control mb-2"
+        placeholder="New Title (optional)"
+      />
+      <input
+        type="number"
+        id="newStock"
+        class="form-control mb-2"
+        placeholder="New Stock (optional)"
+      />
+      <input
+        type="number"
+        id="newPrice"
+        class="form-control mb-2"
+        placeholder="New Price (optional)"
+      />
+      <input
+        type="text"
+        id="newImage"
+        class="form-control mb-2"
+        placeholder="New Image URL (optional)"
+      />
+      <input
+        type="text"
+        id="newCategory"
+        class="form-control mb-2"
+        placeholder="New Category (optional)"
+      />
+
+      <button type="submit" class="btn btn-warning w-100">Update Product</button>
+    </form>
+  </section>
+
+  <!-- DELETE PRODUCT -->
+  <section id="form-delete" class="admin-form d-none">
+    <h3 class="text-danger">Delete Product</h3>
+    <form id="deleteProductForm" class="form-group">
+      <input
+        type="text"
+        id="deleteTitle"
+        class="form-control mb-2"
+        placeholder="Enter Product Title"
+      />
+      <button class="btn btn-danger w-100" type="submit">Delete</button>
+    </form>
+  </section>
+</main>
+
+<script src="/scripts/productsManager.js"></script>

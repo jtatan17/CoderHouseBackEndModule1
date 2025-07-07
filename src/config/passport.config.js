@@ -85,7 +85,7 @@ const initializePassport = () => {
   });
   passport.deserializeUser(async (id, done) => {
     try {
-      let user = await Users.findById(id);
+      let user = await userRepository.readById(id);
       done(null, user);
     } catch (error) {
       console.log("Error deserializando el usuario " + error);

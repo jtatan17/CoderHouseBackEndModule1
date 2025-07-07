@@ -32,7 +32,7 @@ viewsRouter.get("/profile/:uid", productView);
 viewsRouter.get("/checkout/success", cartSuccess);
 
 viewsRouter.get(
-  "/registeraproduct",
+  "/productManager",
   passportCall("jwt"),
   authorization("admin"),
   productRegistration

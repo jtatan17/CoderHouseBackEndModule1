@@ -3,8 +3,13 @@ import productRepository from "../repositories/product.repository.js";
 
 const readOneProduct = async (req, res, next) => {
   try {
-    const { pid } = req.params;
-    const one = await productRepository.readById(pid);
+    const { query } = req.body;
+    if (!query) {
+      return res.status(400).json({ message: "Query is required" });
+    }
+
+    console.log("🔍 Searching for:", query);
+    const one = await productRepository.readOne({ title: query });
     if (one) {
       return res.status(200).json({ response: one });
     } else {
@@ -14,6 +19,8 @@ const readOneProduct = async (req, res, next) => {
     }
   } catch (error) {
     next(error);
+    console.error("❌ Error in readOneProduct:", error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -71,10 +78,52 @@ const updateProduct = async (req, res, next) => {
   }
 };
 
+const updateOneProduct = async (req, res, next) => {
+  try {
+    const { currentTitle, ...updateData } = req.body;
+    if (!currentTitle) {
+      return res.status(400).json({ message: "Current title is required" });
+    }
+    const one = await productRepository.updateOne(
+      { title: currentTitle },
+      updateData
+    );
+
+    if (!one) {
+      return res.status(400).json({ message: "Product no found" });
+    }
+    return res.status(200).json({ response: one });
+  } catch (error) {
+    console.error("❌ Update error:", error);
+    next(error);
+  }
+};
+
 const deleteProduct = async (req, res, next) => {
   try {
     const { pid } = req.params;
     const one = await productRepository.deleteById(pid);
+    if (one) {
+      return res.status(200).json({ response: one });
+    } else {
+      const error = new Error("Not found");
+      error.statusCode = 404;
+      throw error;
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteOneProduct = async (req, res, next) => {
+  try {
+    const { query } = req.body;
+    if (!query || typeof query !== "object" || !query.title) {
+      return res
+        .status(400)
+        .json({ message: "Title is required for deletion" });
+    }
+    const one = await productRepository.deleteOne(query);
     if (one) {
       return res.status(200).json({ response: one });
     } else {
@@ -112,4 +161,6 @@ export {
   updateProduct,
   deleteProduct,
   paginate,
+  updateOneProduct,
+  deleteOneProduct,
 };

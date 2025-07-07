@@ -1,4 +1,5 @@
-import cartsManager from "../Data/mongo/carts.mongo.js";
+// import cartsManager from "../Data/mongo/carts.mongo.js";
+import { cartService as cartsManager } from "../services/factory.js";
 
 class CartRepository {
   readProductsByUser(user_id) {

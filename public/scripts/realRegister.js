@@ -70,7 +70,9 @@ document.querySelector("#register").addEventListener("click", async (e) => {
       if (response.status === 409) {
         throw new Error("User already registered");
       }
-      throw new Error(result.message || "Registration failed");
+      throw new Error(
+        result.message || "Registration failed, please try again"
+      );
     }
 
     console.log(response);

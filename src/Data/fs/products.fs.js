@@ -106,6 +106,16 @@ class ProductsManager {
       throw error;
     }
   }
+  async readById(id) {
+    try {
+      const all = await this.readFile();
+      const one = all.find((each) => each._id === id);
+      return one;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async updateOne(id, newData) {
     try {
       const all = await this.readFile();
@@ -138,7 +148,33 @@ class ProductsManager {
       throw error;
     }
   }
+  async updateStock(product_id, quantityChange) {
+    try {
+      const all = await this.readFile();
+      const index = all.findIndex((p) => p._id === product_id);
+
+      if (index === -1) {
+        throw new Error(`Product with ID ${product_id} not found`);
+      }
+
+      const currentStock = parseInt(all[index].stock, 10); // Ensure stock is a number
+      const updatedStock = currentStock + quantityChange;
+
+      if (updatedStock < 0) {
+        throw new Error(
+          `Insufficient stock for product ${product_id}. Current: ${currentStock}, Requested: ${quantityChange}`
+        );
+      }
+
+      all[index].stock = updatedStock;
+      await this.writeFile(all);
+      return all[index];
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
-const productsManager = new ProductsManager();
-export default productsManager;
+// const productsManager = new ProductsManager();
+// export default productsManager;
+export default ProductsManager;

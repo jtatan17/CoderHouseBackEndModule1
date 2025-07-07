@@ -1,6 +1,7 @@
 import usersManager from "../Data/mongo/users.mongo.js";
 import { isValidPassword } from "../helpers/bcrypt.helper.js";
 import authRepository from "../repositories/auth.repository.js";
+import UserPublicDTO from "../dto/UserPublic.dto.js";
 
 import { generateToken } from "../helpers/tokens.helper.js";
 
@@ -112,10 +113,10 @@ const currentUser = (req, res) => {
       .status(401)
       .json({ success: false, message: "Not authenticated" });
   }
-
+  const safeUser = new UserPublicDTO(req.user);
   res.json({
     success: true,
-    user: req.user, // contains user_id, email, name, role
+    user: safeUser, // contains user_id, email, name, role
   });
 };
 

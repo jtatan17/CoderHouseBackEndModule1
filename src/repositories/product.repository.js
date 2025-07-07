@@ -32,6 +32,18 @@ class ProductRepository {
   updateStock(productId, quantityChange) {
     return productsManager.updateStock(productId, quantityChange);
   }
+
+  readOne(data) {
+    return productsManager.readOne(data);
+  }
+
+  updateOne(filter, data) {
+    return productsManager.updateOne(filter, data);
+  }
+
+  deleteOne(filter) {
+    return productsManager.deleteOne(filter);
+  }
 }
 
 export default new ProductRepository();

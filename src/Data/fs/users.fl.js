@@ -134,7 +134,19 @@ class UsersManager {
       throw error;
     }
   }
+
+  async readBy(filter) {
+    try {
+      const all = await this.readFile();
+      const [key, value] = Object.entries(filter)[0];
+      const one = all.find((user) => user[key] === value);
+      return one;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
-const usersManager = new UsersManager();
-export default usersManager;
+// const usersManager = new UsersManager();
+// export default usersManager;
+export default UsersManager;

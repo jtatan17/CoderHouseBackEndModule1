@@ -1,10 +1,14 @@
 import Product from "../Data/mongo/models/products.model.js";
 import productsManager from "../Data/mongo/products.mongo.js";
+import productRepository from "../repositories/product.repository.js";
 
 const indexView = async (req, res, next) => {
   try {
-    const all = await productsManager.readAll();
-    const plainProducts = all.map((p) => p.toObject());
+    const all = await productRepository.readAll();
+    console.log(all);
+    const plainProducts = all.map((p) =>
+      typeof p.toObject === "function" ? p.toObject() : p
+    );
 
     const data = {
       title: "Home",
@@ -20,7 +24,7 @@ const indexView = async (req, res, next) => {
 const productView = async (req, res, next) => {
   try {
     const { _id } = req.params;
-    const one = await productsManager.readById(_id);
+    const one = await productRepository.readById(_id);
     const data = {
       title: "Product",
       product: one,

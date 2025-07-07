@@ -85,5 +85,23 @@
     "email": "sebastian@coder.com",
     "password": "123456",
     "avatar": "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+  },
+  {
+    "_id": "c3243acd9ef3f36306afae4c",
+    "name": "Messi Mario",
+    "email": "messi@coder.com",
+    "password": "$2b$10$0M.SBYzHPBY4LNNwBmFSY.8hEVtWW9ZgSJwpNmY5xgNMow3er4TYy",
+    "avatar": "https://cdn-icons-png.flaticon.com/512/266/266033.png",
+    "age": "30",
+    "role": "user"
+  },
+  {
+    "_id": "41bf1ebc3bdac55df13eea2f",
+    "name": "Cristiano  Ronaldo",
+    "email": "ronaldo@coder.com",
+    "password": "$2b$10$pVgHSLTryapgQUj83Rut1OaSuN/fMAdLAkaTzTmiIt/dtt.1HO3zq",
+    "avatar": "https://cdn-icons-png.flaticon.com/512/266/266033.png",
+    "age": "30",
+    "role": "admin"
   }
 ]

@@ -69,11 +69,20 @@ export const passportCall = (strategy) => {
   return async (req, res, next) => {
     console.log("Entrando a llamar a" + strategy);
     passport.authenticate(strategy, function (error, user, info) {
-      if (error) returnnext(error);
+      if (error) return next(error);
       if (!user) {
-        return res
-          .status(401)
-          .send({ error: info.messages ? info.messages : info.toString() });
+        const isViewRequest = req.accepts("html");
+
+        // Redirect for views, JSON error for API
+        if (isViewRequest) {
+          return res.redirect("/login");
+        } else {
+          return res
+            .status(401)
+            .send({
+              error: info?.messages || info?.toString() || "Unauthorized",
+            });
+        }
       }
       console.log("Usuario obtenido de el Strategy");
       console.log(user);
